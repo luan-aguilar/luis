@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link para seu CSS -->
+</head>
+<body>
+<div class="dashboard">
+    <header>
+        <h1>Bem-vindo ao Painel de Controle!</h1>
+    </header>
+    <div class="sidebar">
+        <ul>
+            <li><a href="/registrar-comercio">Registrar Comércio</a></li>
+            <li><a href="/consultar-comercios">Consultar Comércio</a></li>
+            <li><a href="/meu-estoque-atual">Meu Estoque Atual</a></li>
+            <li><a href="#">Financeiro</a></li>
+            <li><a href="/logout">Logout</a></li>
+            <li><a href="#" id="acesso-master" class="btn btn-primary">Acesso Master</a></li> <!-- Adiciona o ID aqui -->
+        </ul>
+    </div>
+</div>
+
+<script>
+    document.getElementById('acesso-master').onclick = function() {
+        const senha = prompt('Digite a senha para acessar o Acesso Master:');
+        if (senha === 'luis2024') {
+            window.location.href = '/acesso-master';
+        } else {
+            alert('Senha incorreta!');
+        }
+    }
+</script>
+
+</body>
+</html>

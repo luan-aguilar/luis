@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Comércios</title>
+    <style>
+        /* Estilos da página */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #e1f5fe, #b3e5fc);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Botão de voltar */
+        .voltar-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #0277bd;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            background-color: #e1f5fe;
+            border: 1px solid #0277bd;
+            transition: 0.3s;
+        }
+
+        .voltar-btn:hover {
+            background-color: #0277bd;
+            color: #fff;
+        }
+
+        h1 {
+            text-align: center;
+            color: #01579b;
+            margin-bottom: 30px;
+        }
+
+        /* Estilos dos comércios */
+        .comercio {
+            background: #ffffff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .comercio h2 {
+            color: #0288d1;
+            margin-bottom: 15px;
+        }
+
+        .mercadorias h3 {
+            color: #01579b;
+            margin-top: 20px;
+        }
+
+        /* Estilos das mercadorias */
+        .mercadoria {
+            position: relative;
+            padding: 10px 0;
+            border-bottom: 1px solid #b3e5fc;
+        }
+
+        .mercadoria button {
+            position: absolute;
+            right: 0;
+            background: transparent;
+            border: none;
+            color: #d32f2f;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Botão de edição do comércio */
+        .btn-editar {
+            background-color: #0288d1;
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-editar:hover {
+            background-color: #01579b;
+        }
+
+        /* Formulário de edição do comércio */
+        .form-editar {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #e3f2fd;
+            border-radius: 10px;
+        }
+
+        .form-editar label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #0288d1;
+        }
+
+        .form-editar input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #b3e5fc;
+            border-radius: 5px;
+        }
+
+        .form-editar button {
+            background-color: #0288d1;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .form-editar button:hover {
+            background-color: #01579b;
+        }
+
+        /* Responsividade */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/dashboard" class="voltar-btn">Retornar para Dashboard</a>
+
+        <h1>Consulta de Comércios</h1>
+
+        <% comercios.forEach(comercio => { %>
+            <div class="comercio">
+                <h2><%= comercio.nomeComercio %></h2>
+
+                <!-- Botão e formulário de edição do comércio -->
+                <button class="btn-editar" onclick="toggleEditForm('<%= comercio._id %>')">Editar Comércio</button>
+                <div class="form-editar" id="edit-form-<%= comercio._id %>">
+                    <form onsubmit="return handleComercioEdit(event, '<%= comercio._id %>')">
+                        <label>Nome do Comércio:</label>
+                        <input type="text" id="nomeComercio-<%= comercio._id %>" value="<%= comercio.nomeComercio %>">
+
+                        <label>Endereço:</label>
+                        <input type="text" id="endereco-<%= comercio._id %>" value="<%= comercio.endereco %>">
+
+                        <label>Responsável:</label>
+                        <input type="text" id="responsavel-<%= comercio._id %>" value="<%= comercio.responsavel %>">
+
+                        <label>Telefone:</label>
+                        <input type="text" id="telefone-<%= comercio._id %>" value="<%= comercio.telefone %>">
+
+                        <button type="submit">Salvar Comércio</button>
+                    </form>
+                </div>
+
+                <div class="mercadorias">
+                    <h3>Mercadorias Utilizadas:</h3>
+                    <% comercio.mercadorias.forEach(mercadoria => { %>
+                        <div class="mercadoria">
+                            <button onclick="confirmDelete('<%= mercadoria.nome %>', '<%= mercadoria.id %>', '<%= comercio._id %>')">X</button>
+                            <p><strong>Nome:</strong> <%= mercadoria.nome %></p>
+                            <p><strong>Quantidade:</strong> <%= mercadoria.quantidade %></p>
+                            <p><strong>Valor:</strong> R$ <%= mercadoria.valor.toFixed(2) %></p>
+                        </div>
+                    <% }) %>
+                </div>
+
+            </div>
+        <% }) %>
+    </div>
+
+    <script>
+        function toggleEditForm(comercioId) {
+            const form = document.getElementById(`edit-form-${comercioId}`);
+            form.style.display = form.style.display === 'block' ? 'none' : 'block';
+        }
+
+        async function handleComercioEdit(event, comercioId) {
+            event.preventDefault();
+            const nome = document.getElementById(`nomeComercio-${comercioId}`).value;
+            const endereco = document.getElementById(`endereco-${comercioId}`).value;
+            const responsavel = document.getElementById(`responsavel-${comercioId}`).value;
+            const telefone = document.getElementById(`telefone-${comercioId}`).value;
+
+            await fetch(`/editar-comercio`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ comercioId, nome, endereco, responsavel, telefone })
+            });
+
+            alert('Comércio atualizado com sucesso!');
+            location.reload();
+        }
+
+        async function confirmDelete(nomeMercadoria, mercadoriaId, comercioId) {
+            const confirmacao = confirm(`Você realmente deseja excluir a mercadoria "${nomeMercadoria}"?`);
+            if (confirmacao) {
+                // Chamar a função de excluir mercadoria
+                await deleteMercadoria(mercadoriaId, comercioId);
+                alert('Mercadoria excluída com sucesso!');
+                location.reload(); // Atualiza a página para refletir a exclusão
+            }
+        }
+
+        async function deleteMercadoria(mercadoriaId, comercioId) {
+            await fetch(`/excluir-mercadoria`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mercadoriaId, comercioId })
+            });
+        }
+    </script>
+</body>
+</html>

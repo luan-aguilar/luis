@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Estoque</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Gerenciar Estoque</h1>
+    <form method="POST" action="/usuarios/<%= userId %>/estoque">
+        <div class="form-group">
+            <label for="mercadoria">Mercadoria:</label>
+            <input type="text" class="form-control" id="mercadoria" name="mercadoria" required>
+        </div>
+        <div class="form-group">
+            <label for="quantidade">Quantidade:</label>
+            <input type="number" class="form-control" id="quantidade" name="quantidade" required>
+        </div>
+        <div class="form-group">
+            <label for="valor">Valor:</label>
+            <input type="text" class="form-control" id="valor" name="valor" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Adicionar ao Estoque</button>
+    </form>
+
+    <h2 class="mt-4">Estoque Atual</h2>
+    <ul class="list-group">
+        <% estoque.forEach(item => { %>
+            <li class="list-group-item">
+                <strong><%= item.mercadoria %></strong> - Quantidade: <%= item.quantidade %> - Valor: <%= item.valor %>
+            </li>
+        <% }); %>
+    </ul>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso Master</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .usuario-lista {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .usuario-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .usuario-item:last-child {
+            border-bottom: none;
+        }
+
+        .usuario-nome {
+            font-weight: bold;
+        }
+
+        .voltar {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .form-container {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button[type="submit"] {
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .add-mercadoria {
+            padding: 10px;
+            background-color: #ffc107;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 90%;
+            }
+
+            .usuario-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Acesso Master</h1>
+
+
+        <div class="form-container">
+            <h2>Adicionar Mercadorias</h2>
+            <form action="/adicionar-mercadoria" method="POST" id="mercadoriaForm">
+                <label for="usuario">Selecionar Usuário:</label>
+                <select name="usuarioId" id="usuario" required>
+                    <% usuarios.forEach(function(usuario) { %>
+                        <option value="<%= usuario._id %>"><%= usuario.nome %></option>
+                    <% }) %>
+                </select>
+
+                <div id="mercadoriasContainer">
+                    <div class="mercadoria-item">
+                        <label for="nomeMercadoria">Mercadoria:</label>
+                        <input type="text" name="nomeMercadoria[]" required>
+
+                        <label for="quantidade">Quantidade:</label>
+                        <input type="number" name="quantidade[]" required>
+
+                        <label for="valor">Valor:</label>
+                        <input type="number" name="valor[]" required>
+                    </div>
+                </div>
+
+                <button type="button" class="add-mercadoria" onclick="adicionarMercadoria()">Adicionar Outra Mercadoria</button>
+                <button type="submit">Adicionar Mercadorias</button>
+            </form>
+        </div>
+
+        <a href="/dashboard" class="voltar">Voltar para Dashboard</a>
+    </div>
+
+    <script>
+        function adicionarMercadoria() {
+            const mercadoriaContainer = document.createElement('div');
+            mercadoriaContainer.classList.add('mercadoria-item');
+
+            mercadoriaContainer.innerHTML = `
+                <label for="nomeMercadoria">Mercadoria:</label>
+                <input type="text" name="nomeMercadoria[]" required>
+
+                <label for="quantidade">Quantidade:</label>
+                <input type="number" name="quantidade[]" required>
+
+                <label for="valor">Valor:</label>
+                <input type="number" name="valor[]" required>
+            `;
+
+            document.getElementById('mercadoriasContainer').appendChild(mercadoriaContainer);
+        }
+    </script>
+</body>
+</html>

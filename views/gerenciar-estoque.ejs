@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Estoque de <%= usuario.nome %></title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .mercadoria-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .mercadoria-container input {
+            width: 30%;
+        }
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button[type="button"] {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button[type="button"].remove {
+            background-color: #dc3545;
+        }
+        .mercadoria {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<form action="/usuarios/<%= usuario._id %>/gerenciar-estoque" method="POST">
+    <h2>Gerenciar Estoque de <%= usuario.nome %></h2>
+
+    <div id="mercadorias-container">
+        <div class="mercadoria">
+            <div class="mercadoria-container">
+                <input type="text" name="mercadoriaNome[]" placeholder="Mercadoria" required>
+                <input type="number" name="mercadoriaQuantidade[]" placeholder="Qtd" required>
+                <input type="text" name="mercadoriaValor[]" placeholder="Valor" required>
+            </div>
+            <button type="button" onclick="adicionarMercadoria()">+</button>
+        </div>
+    </div>
+
+    <button type="submit">Salvar Estoque</button>
+</form>
+
+<script>
+    function adicionarMercadoria() {
+        const container = document.getElementById('mercadorias-container');
+        const novaMercadoria = document.createElement('div');
+        novaMercadoria.classList.add('mercadoria');
+        novaMercadoria.innerHTML = `
+            <div class="mercadoria-container">
+                <input type="text" name="mercadoriaNome[]" placeholder="Mercadoria" required>
+                <input type="number" name="mercadoriaQuantidade[]" placeholder="Qtd" required>
+                <input type="text" name="mercadoriaValor[]" placeholder="Valor" required>
+            </div>
+            <button type="button" class="remove" onclick="removerMercadoria(this)">-</button>
+        `;
+        container.appendChild(novaMercadoria);
+    }
+
+    function removerMercadoria(button) {
+        button.parentElement.remove();
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Estoque Atual</title>
+    <style>
+        /* Reset de estilo */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        header h1 {
+            text-align: center;
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        .estoque {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .estoque-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .estoque-item {
+            display: flex;
+            flex-direction: column;
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .estoque-item span {
+            font-size: 1em;
+            color: #555;
+        }
+
+        .estoque-item span:first-child {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .voltar-btn {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .voltar-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsividade */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.5em;
+            }
+
+            .estoque-item span {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Meu Estoque Atual</h1>
+        </header>
+
+        <div class="estoque">
+            <% if (estoque && estoque.length > 0) { %>
+                <ul class="estoque-list">
+                    <% estoque.forEach(item => { %>
+                        <li class="estoque-item">
+                            <span><%= item.nome %></span>
+                            <span>Quantidade: <%= item.quantidade %></span>
+                            <span>Valor: R$<%= Number(item.valor).toFixed(2) %></span>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } else { %>
+                <p style="text-align: center; color: #777;">Nenhuma mercadoria cadastrada no estoque.</p>
+            <% } %>
+        </div>
+
+        <button class="voltar-btn" onclick="window.history.back()">Voltar para a Dashboard</button>
+    </div>
+</body>
+</html>

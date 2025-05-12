@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Estoque Atual</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Meu Estoque Atual</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Mercadoria</th>
+                <th>Quantidade</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% estoque.forEach(item => { %>
+                <tr>
+                    <td><%= item.nome %></td>
+                    <td><%= item.quantidade %></td>
+                    <td><%= item.valor %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <button onclick="window.location.href='/dashboard'">Voltar para Dashboard</button>
+</body>
+</html>

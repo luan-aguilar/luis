@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Comércio</title>
+    <style>
+        /* Reset e estilo geral */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            width: 100%;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 1.2em;
+            color: #555;
+            margin: 1rem 0 0.5rem;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        input[type="number"] {
+            max-width: 100px;
+        }
+
+        label {
+            font-size: 1em;
+            color: #333;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .mercadoria-item {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mercadoria-info {
+            font-size: 0.95em;
+            color: #333;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsividade */
+        @media (max-width: 600px) {
+            .form-container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            h3 {
+                font-size: 1.1em;
+            }
+
+            .mercadoria-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <form action="/registrar-comercio" method="POST">
+            <h2>Registrar Comércio</h2>
+            <input type="text" name="nomeComercio" placeholder="Nome do Comércio" required>
+            <input type="text" name="endereco" placeholder="Endereço" required>
+            <input type="text" name="responsavel" placeholder="Responsável" required>
+            <input type="text" name="telefone" placeholder="Telefone" required>
+
+            <h3>Selecionar Mercadorias:</h3>
+            <% if (estoque && estoque.length > 0) { %>
+                <% estoque.forEach((item, index) => { %>
+                    <div class="mercadoria-item">
+                        <div class="mercadoria-info">
+                            <label><%= item.nome %></label>
+                            <p>R$<%= parseFloat(item.valor).toFixed(2) %> - Disponível: <%= item.quantidade %></p>
+                        </div>
+                        <div>
+                            <input type="hidden" name="mercadoriaNome[]" value="<%= item.nome %>">
+                            <input type="hidden" name="mercadoriaValor[]" value="<%= item.valor %>">
+                            <input type="number" name="mercadoriaQuantidade[]" max="<%= item.quantidade %>" placeholder="Quantidade">
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>Não há mercadorias disponíveis em seu estoque.</p>
+            <% } %>
+
+            <button type="submit">Registrar Comércio</button>
+        </form>
+    </div>
+</body>
+</html>
